@@ -172,7 +172,7 @@ if [ $LXC = "1" ]; then
       sudo cp $OUT-bootstrap/usr/lib/i386-linux-gnu/lxc/lxc-init $OUT-bootstrap/usr/sbin/init.lxc
     fi
   fi
-  dd if=/dev/zero of=$OUT-lxc bs=1M count=1 seek=15360
+  dd if=/dev/zero of=$OUT-lxc bs=1M count=1 seek=20480
   /sbin/mkfs.ext4 -F $OUT-lxc
   t=`mktemp -d gitian.XXXXXXXX`
   sudo mount $OUT-lxc $t
@@ -191,7 +191,7 @@ else
   libexec/config-bootstrap-fixup
 
   rm -rf $OUT
-  env -i LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 sudo vmbuilder kvm $DISTRO --rootsize 20000 --arch=$ARCH --suite=$SUITE --addpkg=$addpkg --removepkg=$removepkg --ssh-key=var/id_rsa.pub --ssh-user-key=var/id_rsa.pub --mirror=$MIRROR --security-mirror=$SECURITY_MIRROR --dest=$OUT --flavour=$FLAVOUR --firstboot=`pwd`/target-bin/bootstrap-fixup
+  env -i LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 sudo vmbuilder kvm $DISTRO --rootsize 20480 --arch=$ARCH --suite=$SUITE --addpkg=$addpkg --removepkg=$removepkg --ssh-key=var/id_rsa.pub --ssh-user-key=var/id_rsa.pub --mirror=$MIRROR --security-mirror=$SECURITY_MIRROR --dest=$OUT --flavour=$FLAVOUR --firstboot=`pwd`/target-bin/bootstrap-fixup
   mv $OUT/*.qcow2 $OUT.qcow2
   rm -rf $OUT
   # bootstrap-fixup is done on first boot
